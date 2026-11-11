@@ -1,0 +1,6 @@
+{
+  "name": "SkillGraph - Learn Coding & AI with Real-Life Examples",
+  "description": "Interactive coding & AI education platform featuring visual skill trees, easy real-life analogies, live interactive sandboxes, and AI tutor for all skill levels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

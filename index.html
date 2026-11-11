@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Runtime Environment: Ignore WebSocket/HMR errors in iframe/proxy environments as mandated by AI Studio constraints
+      (function() {
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          var RealWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            var protoStr = Array.isArray(protocols) ? protocols.join(',') : String(protocols || '');
+            var urlStr = String(url || '');
+            if (protoStr.indexOf('vite-hmr') !== -1 || urlStr.indexOf('vite-hmr') !== -1) {
+              var listeners = {};
+              var dummy = {
+                binaryType: 'blob',
+                bufferedAmount: 0,
+                extensions: '',
+                protocol: 'vite-hmr',
+                readyState: 1,
+                url: urlStr,
+                CONNECTING: 0,
+                OPEN: 1,
+                CLOSING: 2,
+                CLOSED: 3,
+                addEventListener: function(event, callback) {
+                  if (!listeners[event]) listeners[event] = [];
+                  listeners[event].push(callback);
+                  if (event === 'open') {
+                    setTimeout(function() {
+                      try { callback({ type: 'open', target: dummy }); } catch(e) {}
+                    }, 5);
+                  }
+                },
+                removeEventListener: function(event, callback) {
+                  if (!listeners[event]) return;
+                  listeners[event] = listeners[event].filter(function(cb) { return cb !== callback; });
+                },
+                dispatchEvent: function() { return true; },
+                send: function() {},
+                close: function() {},
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null
+              };
+              setTimeout(function() {
+                if (typeof dummy.onopen === 'function') {
+                  try { dummy.onopen({ type: 'open', target: dummy }); } catch(e) {}
+                }
+              }, 5);
+              return dummy;
+            }
+            return new RealWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = RealWebSocket.prototype;
+          window.WebSocket.CONNECTING = RealWebSocket.CONNECTING || 0;
+          window.WebSocket.OPEN = RealWebSocket.OPEN || 1;
+          window.WebSocket.CLOSING = RealWebSocket.CLOSING || 2;
+          window.WebSocket.CLOSED = RealWebSocket.CLOSED || 3;
+        }
+
+        var origConsoleError = console.error;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var argStr = arguments[i] ? (arguments[i].message || String(arguments[i])) : '';
+            if (argStr.indexOf('WebSocket') !== -1 || argStr.indexOf('ws://') !== -1 || argStr.indexOf('wss://') !== -1 || argStr.indexOf('[vite]') !== -1) {
+              return;
+            }
+          }
+          origConsoleError.apply(console, arguments);
+        };
+
+        var origConsoleWarn = console.warn;
+        console.warn = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var argStr = arguments[i] ? (arguments[i].message || String(arguments[i])) : '';
+            if (argStr.indexOf('WebSocket') !== -1 || argStr.indexOf('ws://') !== -1 || argStr.indexOf('wss://') !== -1 || argStr.indexOf('[vite]') !== -1) {
+              return;
+            }
+          }
+          origConsoleWarn.apply(console, arguments);
+        };
+
+        window.addEventListener('error', function (e) {
+          var msg = (e && (e.message || (e.error && e.error.message))) ? String(e.message || e.error.message) : '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('ws://') !== -1 || msg.indexOf('wss://') !== -1 || msg.indexOf('vite') !== -1) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function (e) {
+          var reason = e && e.reason ? (e.reason.message || String(e.reason)) : '';
+          if (reason.indexOf('WebSocket') !== -1 || reason.indexOf('ws://') !== -1 || reason.indexOf('wss://') !== -1 || reason.indexOf('vite') !== -1) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
+    <title>SkillGraph - Learn Coding & AI with Real-Life Examples</title>
+    <meta name="description" content="Interactive coding & AI education platform featuring visual skill trees, easy real-life analogies, live interactive sandboxes, and AI tutor for all skill levels." />
+    <meta property="og:title" content="SkillGraph - Learn Coding & AI with Real-Life Examples" />
+    <meta property="og:description" content="Interactive coding & AI education platform featuring visual skill trees, easy real-life analogies, live interactive sandboxes, and AI tutor for all skill levels." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SkillGraph" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

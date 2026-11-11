@@ -1,0 +1,13 @@
+[
+  {
+    "id": "default-html-banner",
+    "title": "Live CEO Announcement Banner (HTML Widget)",
+    "type": "html",
+    "code": "<div class=\"p-3.5 rounded-2xl bg-gradient-to-r from-indigo-950 via-cyan-950 to-slate-950 border border-cyan-400/40 text-xs flex items-center justify-between gap-3 shadow-2xl\">\n  <div class=\"flex items-center gap-2\">\n    <span class=\"px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-[10px]\">NEW</span>\n    <span class=\"font-bold text-white\">Gemini 3.8 Flash Code Injection Active!</span>\n    <span class=\"text-slate-300 hidden md:inline\">Your custom components and styles are synchronized across all devices & installed apps.</span>\n  </div>\n  <button onclick=\"this.parentElement.remove()\" class=\"px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold\">Dismiss</button>\n</div>",
+    "enabled": true,
+    "createdAt": "2026-11-08T14:24:54.055Z",
+    "description": "Synchronized cross-device banner widget.",
+    "targetLocation": "banner",
+    "executionLog": "Active & Cloud-Synced."
+  }
+]
